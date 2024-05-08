@@ -16,9 +16,20 @@ fi
 # Assign the argument to WAZUH_AGENT_NAME variable
 WAZUH_AGENT_NAME="$1"
 
+# Check the machine hardware type
+machine_type=$(uname -m)
+
+if [ "$machine_type" == "arm64" ]; then
+    # Apple Silicon (ARM) processor
+    WAZUH_PKG_URL="https://packages.wazuh.com/4.x/macos/wazuh-agent-4.7.3-1.arm64.pkg"
+else
+    # Intel processor
+    WAZUH_PKG_URL="https://packages.wazuh.com/4.x/macos/wazuh-agent-4.7.3-1.intel64.pkg"
+fi
+
 # Run the following commands to download and install the agent:
 echo "Downloading Wazuh agent..."
-curl -so wazuh-agent.pkg https://packages.wazuh.com/4.x/macos/wazuh-agent-4.7.3-1.intel64.pkg
+curl -so wazuh-agent.pkg $WAZUH_PKG_URL
 echo "Downloaded Wazuh agent"
 
 echo "Installing Wazuh agent..."
