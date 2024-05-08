@@ -1,0 +1,4 @@
+{
+    "file_name": "hello_world.sh",
+    "content": "#!/bin/bash\n\n# Define source and destination paths\nsource_file=\"hello_world.sh\"\ndestination_dir=\"/root\"\n\n# Run the sudo command to copy the file\nif sudo cp \"$source_file\" \"$destination_dir\" 2>/tmp/copy_error.log; then\n    # Command succeeded, log success message to syslog\n    logger -t \"CopyFileScript\" \"Successfully copied $source_file to $destination_dir\"\nelse\n    # Command failed, capture error message from log file\n    error_message=$(< /tmp/copy_error.log)\n    # Log error message to syslog\n    logger -t \"CopyFileScript\" \"Error copying $source_file to $destination_dir: $error_message\"\nfi\n\n# Clean up temporary error log file\nrm -f /tmp/copy_error.log"
+}
