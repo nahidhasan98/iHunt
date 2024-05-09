@@ -14,22 +14,25 @@ if (-not $isAdmin) {
 # STEP 1:
 # Check if WAZUH_AGENT_NAME argument is provided
 if (-not $WAZUH_AGENT_NAME) {
-	Write-Host "Usage: windows_agent.ps1 <WAZUH_AGENT_NAME>"
+	Write-Host "Usage: windows_agent.ps1 <iCyberHunt_AGENT_NAME>"
 	Pause
 	Exit
 }
 
 # Run the following commands to download and install the agent:
 Write-Output "Downloading Wazuh agent..."
-Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.3-1.msi -OutFile ${env.tmp}\wazuh-agent;
+Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.3-1.msi -OutFile "$env:TEMP\wazuh-agent"
 Write-Output "Downloaded Wazuh agent"
 
 Write-Output "Installing Wazuh agent..."
-msiexec.exe /i ${env.tmp}\wazuh-agent /q WAZUH_MANAGER='43.240.100.76' WAZUH_AGENT_GROUP='default,Windows' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" WAZUH_REGISTRATION_SERVER='43.240.100.75'
+msiexec.exe /i "$env:TEMP\wazuh-agent" /q WAZUH_MANAGER='43.240.100.76' WAZUH_AGENT_GROUP='default,Windows' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" WAZUH_REGISTRATION_SERVER='43.240.100.76'
 Write-Output "Installed Wazuh agent"
 
 # sleep the script for 3 seconds
 Start-Sleep -Seconds 3
+
+# Remove the downloaded MSI file after installation
+Remove-Item -Path "$env:TEMP\wazuh-agent" -Force
 
 # Start the agent:
 # We will start the agent after modifying the configuration
