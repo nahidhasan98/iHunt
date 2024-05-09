@@ -107,7 +107,7 @@ file_list=$(
 
 # Log the concatenated list of filenames to syslog
 current_time=$(date +'%Y-%m-%d %H:%M:%S')
-echo "[$current_time] AR_FILE_LIST_MAC: $file_list" >> "/var/ossec/active-response/custom_ar.log"
+echo "[$current_time] AR_FILE_LIST_LINUX: $file_list" >> "/var/ossec/active-response/custom_ar.log"
 
 exit 0
 EOF
