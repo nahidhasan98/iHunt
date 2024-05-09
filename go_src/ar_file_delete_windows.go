@@ -69,5 +69,5 @@ func main() {
 	}
 
 	// If deletion was successful, inform the user
-	file.WriteString("File '" + filePath + "' has been deleted successfully." + "\n")
+	file.WriteString("File " + filePath + " has been deleted successfully." + "\n")
 }
