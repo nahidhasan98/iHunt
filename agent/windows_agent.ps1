@@ -51,14 +51,20 @@ else {
 }
 
 # STEP 3:
-# Downloading ar file list (ar_file_list_windowx.exe)
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_list_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_list_windows.exe";
-
-# Creating log file for ar_file_list that will be captured by wazuh
+# Creating log file for custom ar (that will be captured by wazuh)
 New-Item -Path "C:\Program Files (x86)\ossec-agent\active-response\custom_ar.log" -ItemType File -Force > $null
 
 # STEP 4:
-# todo: Creating master ar
+# Getting file_list ar
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_list_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_list_windows.exe";
+
+# STEP 5:
+# Getting master ar
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/master_ar_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\master_ar_windows.exe";
+
+# STEP 6:
+# Getting file_delete ar
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_delete_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_delete_windows.exe";
 
 # Start the agent:
 Write-Output "Starting Wazuh agent..."
