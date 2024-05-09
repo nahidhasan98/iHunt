@@ -36,6 +36,12 @@ echo "Installing iCyberHunt agent..."
 echo "WAZUH_MANAGER='43.240.100.76' && WAZUH_AGENT_GROUP='default,macOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
 echo "Installed iCyberHunt agent"
 
+# sleep the script for 3 seconds
+sleep 3
+
+# Remove the downloaded MSI file after installation
+sudo rm -f ./wazuh-agent.pkg
+
 # Start the agent:
 # We will start the agent after modifying the configuration
 
@@ -46,7 +52,14 @@ echo 'logcollector.remote_commands=1' >>"$LOCAL_INTERNAL_CONF_FILE"
 echo 'wazuh_command.remote_commands=1' >>$LOCAL_INTERNAL_CONF_FILE
 
 # STEP 3:
-# Creating file list ar (ar_file_list_mac.sh)
+# Creating log file for custom ar (that will be captured by wazuh)
+CUSTOM_AR="/Library/Ossec/active-response/custom_ar.log"
+touch "$CUSTOM_AR"
+sudo chmod 750 "$CUSTOM_AR"
+sudo chown root:wazuh "$CUSTOM_AR"
+
+# STEP 4:
+# Creating file_list ar
 AR_FILE_LIST_MAC="/Library/Ossec/active-response/bin/ar_file_list_mac.sh"
 touch "$AR_FILE_LIST_MAC"
 
@@ -83,14 +96,21 @@ EOF
 sudo chmod 750 "$AR_FILE_LIST_MAC"
 sudo chown root:wazuh "$AR_FILE_LIST_MAC"
 
-# Creating log file for ar_file_list that will be captured by wazuh
-CUSTOM_AR="/Library/Ossec/active-response/custom_ar.log"
-touch "$CUSTOM_AR"
-sudo chmod 750 "$CUSTOM_AR"
-sudo chown root:wazuh "$CUSTOM_AR"
+# STEP 5:
+# Getting master ar
+MASTER_AR_MAC="/Library/Ossec/active-response/bin/master_ar_mac"
+curl -so $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/mac/master_ar_mac
 
-# STEP 4:
-# todo: Creating master ar
+sudo chmod 750 "$MASTER_AR_MAC"
+sudo chown root:wazuh "$MASTER_AR_MAC"
+
+# STEP 6:
+# Getting file_delete ar
+AR_FILE_DELETE_MAC="/Library/Ossec/active-response/bin/ar_file_delete_mac"
+curl -so $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/mac/ar_file_delete_mac
+
+sudo chmod 750 "$AR_FILE_DELETE_MAC"
+sudo chown root:wazuh "$AR_FILE_DELETE_MAC"
 
 # Start the agent:
 echo "Starting iCyberHunt agent..."
