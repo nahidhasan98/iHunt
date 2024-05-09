@@ -18,7 +18,7 @@ WAZUH_AGENT_NAME="$1"
 
 # Function to install required packages if missing
 install_packages() {
-    local packages=(wget jq)
+    local packages=(curl jq)
     local missing_packages=()
 
     for pkg in "${packages[@]}"; do
@@ -43,12 +43,12 @@ install_packages() {
     fi
 }
 
-# Check if wget and jq are installed
+# Check if curl and jq are installed
 install_packages
 
 # Run the following commands to download and install the agent:
 echo "Downloading Wazuh agent..."
-wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.3-1_amd64.deb
+curl -so wazuh-agent_4.7.3-1_amd64.deb https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.3-1_amd64.deb
 echo "Downloaded Wazuh agent"
 
 echo "Installing Wazuh agent..."
