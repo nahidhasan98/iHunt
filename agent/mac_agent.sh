@@ -9,7 +9,7 @@ fi
 # STEP 1:
 # Check if WAZUH_AGENT_NAME argument is provided
 if [ -z "$1" ]; then
-    echo "Usage: $0 <WAZUH_AGENT_NAME>"
+    echo "Usage: $0 <iCyberHunt_AGENT_NAME>"
     exit 1
 fi
 
@@ -28,13 +28,13 @@ else
 fi
 
 # Run the following commands to download and install the agent:
-echo "Downloading Wazuh agent..."
+echo "Downloading iCyberHunt agent..."
 curl -so wazuh-agent.pkg $WAZUH_PKG_URL
-echo "Downloaded Wazuh agent"
+echo "Downloaded iCyberHunt agent"
 
-echo "Installing Wazuh agent..."
+echo "Installing iCyberHunt agent..."
 echo "WAZUH_MANAGER='43.240.100.76' && WAZUH_AGENT_GROUP='default,macOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
-echo "Installed Wazuh agent"
+echo "Installed iCyberHunt agent"
 
 # Start the agent:
 # We will start the agent after modifying the configuration
@@ -93,8 +93,8 @@ sudo chown root:wazuh "$CUSTOM_AR"
 # todo: Creating master ar
 
 # Start the agent:
-echo "Starting Wazuh agent..."
+echo "Starting iCyberHunt agent..."
 sudo /Library/Ossec/bin/wazuh-control start
-echo "Started Wazuh agent"
+echo "Started iCyberHunt agent"
 
 echo "Script run successfully."

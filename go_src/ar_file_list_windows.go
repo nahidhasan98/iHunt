@@ -38,11 +38,13 @@ func main() {
 	file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %v", err)
+		os.Exit(1)
 	}
 	defer file.Close()
 
 	// Write the file list to the log file
 	if _, err := file.WriteString(logMessage); err != nil {
 		log.Fatalf("Failed to write to log file: %v", err)
+		os.Exit(1)
 	}
 }

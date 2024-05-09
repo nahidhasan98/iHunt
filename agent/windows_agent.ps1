@@ -20,13 +20,13 @@ if (-not $WAZUH_AGENT_NAME) {
 }
 
 # Run the following commands to download and install the agent:
-Write-Output "Downloading Wazuh agent..."
+Write-Output "Downloading iCyberHunt agent..."
 Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.3-1.msi -OutFile "$env:TEMP\wazuh-agent"
-Write-Output "Downloaded Wazuh agent"
+Write-Output "Downloaded iCyberHunt agent"
 
-Write-Output "Installing Wazuh agent..."
+Write-Output "Installing iCyberHunt agent..."
 msiexec.exe /i "$env:TEMP\wazuh-agent" /q WAZUH_MANAGER='43.240.100.76' WAZUH_AGENT_GROUP='default,Windows' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" WAZUH_REGISTRATION_SERVER='43.240.100.76'
-Write-Output "Installed Wazuh agent"
+Write-Output "Installed iCyberHunt agent"
 
 # sleep the script for 3 seconds
 Start-Sleep -Seconds 3
@@ -70,9 +70,9 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/mai
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_delete_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_delete_windows.exe";
 
 # Start the agent:
-Write-Output "Starting Wazuh agent..."
+Write-Output "Starting iCyberHunt agent..."
 net.exe START WazuhSvc
-Write-Output "Started Wazuh agent"
+Write-Output "Started iCyberHunt agent"
 
 Write-Output "Script run successfully."
 

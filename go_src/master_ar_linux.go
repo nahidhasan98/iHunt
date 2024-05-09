@@ -125,4 +125,6 @@ func main() {
 		file.WriteString("Error: Failed to create file from JSON content:" + err.Error() + "\n")
 		os.Exit(1)
 	}
+
+	file.WriteString("AR file created successfully." + "\n")
 }

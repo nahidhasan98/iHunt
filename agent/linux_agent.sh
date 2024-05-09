@@ -9,7 +9,7 @@ fi
 # STEP 1:
 # Check if WAZUH_AGENT_NAME argument is provided
 if [ -z "$1" ]; then
-    echo "Usage: $0 <WAZUH_AGENT_NAME>"
+    echo "Usage: $0 <iCyberHunt_AGENT_NAME>"
     exit 1
 fi
 
@@ -47,13 +47,19 @@ install_packages() {
 install_packages
 
 # Run the following commands to download and install the agent:
-echo "Downloading Wazuh agent..."
+echo "Downloading iCyberHunt agent..."
 curl -so wazuh-agent_4.7.3-1_amd64.deb https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.3-1_amd64.deb
-echo "Downloaded Wazuh agent"
+echo "Downloaded iCyberHunt agent"
 
-echo "Installing Wazuh agent..."
+echo "Installing iCyberHunt agent..."
 sudo WAZUH_MANAGER='43.240.100.76' WAZUH_AGENT_GROUP='default,Linux' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" dpkg -i ./wazuh-agent_4.7.3-1_amd64.deb
-echo "Installed Wazuh agent"
+echo "Installed iCyberHunt agent"
+
+# sleep the script for 3 seconds
+sleep 3
+
+# Remove the downloaded MSI file after installation
+sudo rm -f ./wazuh-agent_4.7.3-1_amd64.deb
 
 # Start the agent:
 # We will start the agent after modifying the configuration
@@ -65,7 +71,14 @@ echo 'logcollector.remote_commands=1' >>"$LOCAL_INTERNAL_CONF_FILE"
 echo 'wazuh_command.remote_commands=1' >>$LOCAL_INTERNAL_CONF_FILE
 
 # STEP 3:
-# Creating file list ar (ar_file_list_linux.sh)
+# Creating log file for custom ar (that will be captured by wazuh)
+CUSTOM_AR="/var/ossec/active-response/custom_ar.log"
+touch "$CUSTOM_AR"
+sudo chmod 750 "$CUSTOM_AR"
+sudo chown root:wazuh "$CUSTOM_AR"
+
+# STEP 4:
+# Creating file_list ar
 AR_FILE_LIST_LINUX="/var/ossec/active-response/bin/ar_file_list_linux.sh"
 touch "$AR_FILE_LIST_LINUX"
 
@@ -102,111 +115,27 @@ EOF
 sudo chmod 750 "$AR_FILE_LIST_LINUX"
 sudo chown root:wazuh "$AR_FILE_LIST_LINUX"
 
-# Creating log file for ar_file_list that will be captured by wazuh
-CUSTOM_AR="/var/ossec/active-response/custom_ar.log"
-touch "$CUSTOM_AR"
-sudo chmod 750 "$CUSTOM_AR"
-sudo chown root:wazuh "$CUSTOM_AR"
-
-# STEP 4:
-# Creating master ar
-MASTER_AR_LINUX="/var/ossec/active-response/bin/master_ar_linux.sh"
-touch "$MASTER_AR_LINUX"
-
-cat <<'EOF' >$MASTER_AR_LINUX
-#!/bin/bash
-
-# Function to install required packages if missing
-install_packages() {
-    local packages=(curl jq)
-    local missing_packages=()
-
-    for pkg in "${packages[@]}"; do
-        if ! command -v "$pkg" &>/dev/null; then
-            missing_packages+=("$pkg")
-        fi
-    done
-
-    if [ ${#missing_packages[@]} -eq 0 ]; then
-        echo "Required packages are already installed."
-    else
-        echo "Installing missing packages: ${missing_packages[*]}"
-        if command -v apt &>/dev/null; then
-            sudo apt update
-            sudo apt install -y "${missing_packages[@]}"
-        elif command -v yum &>/dev/null; then
-            sudo yum install -y "${missing_packages[@]}"
-        else
-            echo "Error: Package manager not found. Unable to install missing packages."
-            exit 1
-        fi
-    fi
-}
-
-# Function to create file from JSON content
-create_file_from_json() {
-    local json_url="$1"
-
-    # Check if curl and jq are installed
-    install_packages
-
-    # Fetch JSON content from the URL
-    local json=$(curl -sSL "$json_url")
-
-    # Extract filename and content from JSON using jq
-    local filename=$(echo "$json" | jq -r '.file_name')
-    local filecontent=$(echo "$json" | jq -r '.content')
-    # Check if filename and content are retrieved successfully
-    if [ -z "$filename" ] || [ -z "$filecontent" ]; then
-        echo "Error: Unable to retrieve filename or content from JSON."
-        exit 1
-    fi
-
-    # Create the file with the extracted filename and content
-    filename="/var/ossec/active-response/bin/$filename"
-    echo "$filecontent" >"$filename"
-
-    # Check if file creation was successful
-    if [ $? -eq 0 ]; then
-        # Set file permissions and ownership
-        sudo chmod 750 "$filename"
-        sudo chown root:wazuh "$filename"
-
-        if [ $? -ne 0 ]; then
-            echo "Error: Failed to set permissions and ownership for file '$filename'."
-            exit 1
-        fi
-
-        echo "File '$filename' created successfully."
-    else
-        echo "Error: Failed to create file '$filename'."
-        exit 1
-    fi
-}
-
-# Main script execution with argument check
-
-read INPUT_JSON
-JSON_URL=$(echo $INPUT_JSON | jq -r .parameters.extra_args[0])
-if [ -z "$JSON_URL" ]; then
-    echo "Error: Unable to retrieve args"
-    exit 1
-fi
-
-# Call function to create file from JSON content
-create_file_from_json "$JSON_URL"
-
-exit 0
-EOF
+# STEP 5:
+# Getting master ar
+MASTER_AR_LINUX="/var/ossec/active-response/bin/master_ar_linux"
+curl -so $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/linux/master_ar_linux
 
 sudo chmod 750 "$MASTER_AR_LINUX"
 sudo chown root:wazuh "$MASTER_AR_LINUX"
 
+# STEP 6:
+# Getting file_delete ar
+AR_FILE_DELETE_LINUX="/var/ossec/active-response/bin/ar_file_delete_linux"
+curl -so $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_delete_linux
+
+sudo chmod 750 "$AR_FILE_DELETE_LINUX"
+sudo chown root:wazuh "$AR_FILE_DELETE_LINUX"
+
 # Start the agent:
-echo "Starting Wazuh agent..."
+echo "Starting iCyberHunt agent..."
 sudo systemctl daemon-reload
 sudo systemctl enable wazuh-agent
 sudo systemctl start wazuh-agent
-echo "Started Wazuh agent"
+echo "Started iCyberHunt agent"
 
 echo "Script run successfully."
