@@ -59,7 +59,7 @@ func main() {
 	filePath := getFileName(inputJSON)
 	fmt.Println(filePath)
 
-	filePath = "active-response\\bin\\" + filePath
+	filePath = "C:\\Program Files (x86)\\ossec-agent\\active-response\\bin\\" + filePath
 	// Attempt to remove the file
 	err = os.Remove(filePath)
 	if err != nil {
