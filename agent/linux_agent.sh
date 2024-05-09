@@ -126,7 +126,7 @@ sudo chown root:wazuh "$MASTER_AR_LINUX"
 # STEP 6:
 # Getting file_delete ar
 AR_FILE_DELETE_LINUX="/var/ossec/active-response/bin/ar_file_delete_linux"
-curl -so $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/linux/ar_file_delete_linux
+curl -so $AR_FILE_DELETE_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/linux/ar_file_delete_linux
 
 sudo chmod 750 "$AR_FILE_DELETE_LINUX"
 sudo chown root:wazuh "$AR_FILE_DELETE_LINUX"
