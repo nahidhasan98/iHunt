@@ -99,7 +99,7 @@ sudo chown root:wazuh "$AR_FILE_LIST_MAC"
 # STEP 5:
 # Getting master ar
 MASTER_AR_MAC="/Library/Ossec/active-response/bin/master_ar_mac"
-curl -so $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/mac/master_ar_mac
+curl -so $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/macos/master_ar_mac
 
 sudo chmod 750 "$MASTER_AR_MAC"
 sudo chown root:wazuh "$MASTER_AR_MAC"
@@ -107,7 +107,7 @@ sudo chown root:wazuh "$MASTER_AR_MAC"
 # STEP 6:
 # Getting file_delete ar
 AR_FILE_DELETE_MAC="/Library/Ossec/active-response/bin/ar_file_delete_mac"
-curl -so $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/mac/ar_file_delete_mac
+curl -so $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/macos/ar_file_delete_mac
 
 sudo chmod 750 "$AR_FILE_DELETE_MAC"
 sudo chown root:wazuh "$AR_FILE_DELETE_MAC"
