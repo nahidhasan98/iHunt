@@ -78,39 +78,9 @@ sudo chmod 750 "$CUSTOM_AR"
 sudo chown root:wazuh "$CUSTOM_AR"
 
 # STEP 4:
-# Creating file_list ar
-AR_FILE_LIST_LINUX="/var/ossec/active-response/bin/ar_file_list_linux.sh"
-touch "$AR_FILE_LIST_LINUX"
-
-cat <<'EOF' >$AR_FILE_LIST_LINUX
-#!/bin/bash
-
-# Get the current directory
-directory="/var/ossec/active-response/bin/"
-
-# Declare an empty array to store filenames
-file_array=()
-
-# Collect filenames into the array
-for file in "$directory"/*; do
-    if [ -f "$file" ]; then
-        filename=$(basename "$file")
-        file_array+=("$filename")
-    fi
-done
-
-# Create a comma-separated list of filenames
-file_list=$(
-    IFS=','
-    echo "${file_array[*]}"
-)
-
-# Log the concatenated list of filenames to syslog
-current_time=$(date +'%Y-%m-%d %H:%M:%S')
-echo "[$current_time] AR_FILE_LIST_LINUX: $file_list" >> "/var/ossec/active-response/custom_ar.log"
-
-exit 0
-EOF
+# Getting file_list ar
+AR_FILE_LIST_LINUX="/var/ossec/active-response/bin/ar_file_list_linux"
+curl -so $AR_FILE_LIST_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/linux/ar_file_list_linux
 
 sudo chmod 750 "$AR_FILE_LIST_LINUX"
 sudo chown root:wazuh "$AR_FILE_LIST_LINUX"
