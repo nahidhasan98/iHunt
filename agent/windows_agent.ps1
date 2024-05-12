@@ -59,15 +59,15 @@ New-Item -Path "C:\Program Files (x86)\ossec-agent\active-response\custom_ar.log
 
 # STEP 4:
 # Getting file_list ar
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_list_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_list_windows.exe";
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/windows/ar_file_list_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_list_windows.exe";
 
 # STEP 5:
 # Getting master ar
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/master_ar_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\master_ar_windows.exe";
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/windows/master_ar_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\master_ar_windows.exe";
 
 # STEP 6:
 # Getting file_delete ar
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/wazuh/windows/ar_file_delete_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_delete_windows.exe";
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/windows/ar_file_delete_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_delete_windows.exe";
 
 # Start the agent:
 Write-Output "Starting iCyberHunt agent..."
