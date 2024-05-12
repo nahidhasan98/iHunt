@@ -42,23 +42,33 @@ sleep 3
 # Remove the downloaded MSI file after installation
 sudo rm -f ./wazuh-agent.pkg
 
+# STEP 2:
+# Modifying Wazuh agent keyword to iCyberHunt agent
+ossec_file="/Library/Ossec/etc/ossec.conf"
+
+sed -i \
+    -e 's/^[[:space:]]*Wazuh - Agent - Default configuration/  iCyberHunt - Agent - Default configuration/' \
+    -e '/^[[:space:]]*More info/d' \
+    -e '/^[[:space:]]*Mailing list/d' \
+    "$ossec_file"
+
 # Start the agent:
 # We will start the agent after modifying the configuration
 
-# STEP 2:
+# STEP 3:
 # Enabling the remote commands on agent:
 LOCAL_INTERNAL_CONF_FILE="/Library/Ossec/etc/local_internal_options.conf"
 echo 'logcollector.remote_commands=1' >>"$LOCAL_INTERNAL_CONF_FILE"
 echo 'wazuh_command.remote_commands=1' >>$LOCAL_INTERNAL_CONF_FILE
 
-# STEP 3:
+# STEP 4:
 # Creating log file for custom ar (that will be captured by wazuh)
 CUSTOM_AR="/Library/Ossec/active-response/custom_ar.log"
 touch "$CUSTOM_AR"
 sudo chmod 750 "$CUSTOM_AR"
 sudo chown root:wazuh "$CUSTOM_AR"
 
-# STEP 4:
+# STEP 5:
 # Getting file_list ar
 AR_FILE_LIST_MAC="/Library/Ossec/active-response/bin/ar_file_list_mac"
 curl -so $AR_FILE_LIST_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/ar_file_list_mac
@@ -66,7 +76,7 @@ curl -so $AR_FILE_LIST_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/
 sudo chmod 750 "$AR_FILE_LIST_MAC"
 sudo chown root:wazuh "$AR_FILE_LIST_MAC"
 
-# STEP 5:
+# STEP 6:
 # Getting master ar
 MASTER_AR_MAC="/Library/Ossec/active-response/bin/master_ar_mac"
 curl -so $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/master_ar_mac
@@ -74,7 +84,7 @@ curl -so $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/mai
 sudo chmod 750 "$MASTER_AR_MAC"
 sudo chown root:wazuh "$MASTER_AR_MAC"
 
-# STEP 6:
+# STEP 7:
 # Getting file_delete ar
 AR_FILE_DELETE_MAC="/Library/Ossec/active-response/bin/ar_file_delete_mac"
 curl -so $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/ar_file_delete_mac

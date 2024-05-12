@@ -61,23 +61,33 @@ sleep 3
 # Remove the downloaded MSI file after installation
 sudo rm -f ./wazuh-agent_4.7.3-1_amd64.deb
 
+# STEP 2:
+# Modifying Wazuh agent keyword to iCyberHunt agent
+ossec_file="/var/ossec/etc/ossec.conf"
+
+sed -i \
+    -e 's/^[[:space:]]*Wazuh - Agent - Default configuration/  iCyberHunt - Agent - Default configuration/' \
+    -e '/^[[:space:]]*More info/d' \
+    -e '/^[[:space:]]*Mailing list/d' \
+    "$ossec_file"
+
 # Start the agent:
 # We will start the agent after modifying the configuration
 
-# STEP 2:
+# STEP 3:
 # Enabling the remote commands on agent:
 LOCAL_INTERNAL_CONF_FILE="/var/ossec/etc/local_internal_options.conf"
 echo 'logcollector.remote_commands=1' >>"$LOCAL_INTERNAL_CONF_FILE"
 echo 'wazuh_command.remote_commands=1' >>$LOCAL_INTERNAL_CONF_FILE
 
-# STEP 3:
+# STEP 4:
 # Creating log file for custom ar (that will be captured by wazuh)
 CUSTOM_AR="/var/ossec/active-response/custom_ar.log"
 touch "$CUSTOM_AR"
 sudo chmod 750 "$CUSTOM_AR"
 sudo chown root:wazuh "$CUSTOM_AR"
 
-# STEP 4:
+# STEP 5:
 # Getting file_list ar
 AR_FILE_LIST_LINUX="/var/ossec/active-response/bin/ar_file_list_linux"
 curl -so $AR_FILE_LIST_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/ar_file_list_linux
@@ -85,7 +95,7 @@ curl -so $AR_FILE_LIST_LINUX https://raw.githubusercontent.com/nahidhasan98/iHun
 sudo chmod 750 "$AR_FILE_LIST_LINUX"
 sudo chown root:wazuh "$AR_FILE_LIST_LINUX"
 
-# STEP 5:
+# STEP 6:
 # Getting master ar
 MASTER_AR_LINUX="/var/ossec/active-response/bin/master_ar_linux"
 curl -so $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/master_ar_linux
@@ -93,7 +103,7 @@ curl -so $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/m
 sudo chmod 750 "$MASTER_AR_LINUX"
 sudo chown root:wazuh "$MASTER_AR_LINUX"
 
-# STEP 6:
+# STEP 7:
 # Getting file_delete ar
 AR_FILE_DELETE_LINUX="/var/ossec/active-response/bin/ar_file_delete_linux"
 curl -so $AR_FILE_DELETE_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/ar_file_delete_linux
