@@ -78,6 +78,7 @@ touch "$CUSTOM_AR"
 sudo chmod 750 "$CUSTOM_AR"
 sudo chown root:wazuh "$CUSTOM_AR"
 
+echo "Downloading necesasry ar files..."
 # STEP 5:
 # Getting file_list ar
 AR_FILE_LIST_MAC="/Library/Ossec/active-response/bin/ar_file_list_mac"
@@ -101,6 +102,8 @@ curl -so $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHun
 
 sudo chmod 750 "$AR_FILE_DELETE_MAC"
 sudo chown root:wazuh "$AR_FILE_DELETE_MAC"
+
+echo "Download done."
 
 # Start the agent:
 echo "Starting iCyberHunt agent..."

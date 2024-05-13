@@ -89,6 +89,7 @@ else {
 # Creating log file for custom ar (that will be captured by wazuh)
 New-Item -Path "C:\Program Files (x86)\ossec-agent\active-response\custom_ar.log" -ItemType File -Force > $null
 
+Write-Output "Downloading necesasry ar files..."
 # STEP 5:
 # Getting file_list ar
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/windows/ar_file_list_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_list_windows.exe";
@@ -100,6 +101,8 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/mai
 # STEP 7:
 # Getting file_delete ar
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/windows/ar_file_delete_windows.exe" -OutFile "C:\Program Files (x86)\ossec-agent\active-response\bin\ar_file_delete_windows.exe";
+
+Write-Output "Download done."
 
 # Start the agent:
 Write-Output "Starting iCyberHunt agent..."
