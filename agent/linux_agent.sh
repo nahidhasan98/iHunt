@@ -8,13 +8,23 @@ fi
 
 # STEP 1:
 # Check if WAZUH_AGENT_NAME argument is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <iCyberHunt_AGENT_NAME>"
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <iCyberHunt_AGENT_NAME> <environment:prod/dev>"
     exit 1
 fi
 
-# Assign the argument to WAZUH_AGENT_NAME variable
+# Assign the argument to variables
 WAZUH_AGENT_NAME="$1"
+ENVIRONMENT="$2"
+
+if [ "$ENVIRONMENT" == "dev" ]; then
+    WAZUH_MANAGER="43.240.100.76"
+elif [ "$ENVIRONMENT" == "prod" ]; then
+    WAZUH_MANAGER="202.191.121.110"
+else
+    echo "Unknown environment: $ENVIRONMENT"
+    exit 1
+fi
 
 # Function to install required packages if missing
 install_packages() {
@@ -52,7 +62,7 @@ curl -so wazuh-agent_4.7.3-1_amd64.deb https://packages.wazuh.com/4.x/apt/pool/m
 echo "Downloaded iCyberHunt agent"
 
 echo "Installing iCyberHunt agent..."
-sudo WAZUH_MANAGER='43.240.100.76' WAZUH_AGENT_GROUP='default,Linux' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" dpkg -i ./wazuh-agent_4.7.3-1_amd64.deb
+sudo WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP='default,Linux' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" dpkg -i ./wazuh-agent_4.7.3-1_amd64.deb
 echo "Installed iCyberHunt agent"
 
 # sleep the script for 3 seconds

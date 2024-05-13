@@ -8,13 +8,23 @@ fi
 
 # STEP 1:
 # Check if WAZUH_AGENT_NAME argument is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <iCyberHunt_AGENT_NAME>"
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <iCyberHunt_AGENT_NAME> <environment:prod/dev>"
     exit 1
 fi
 
-# Assign the argument to WAZUH_AGENT_NAME variable
+# Assign the argument to variables
 WAZUH_AGENT_NAME="$1"
+ENVIRONMENT="$2"
+
+if [ "$ENVIRONMENT" == "dev" ]; then
+    WAZUH_MANAGER="43.240.100.76"
+elif [ "$ENVIRONMENT" == "prod" ]; then
+    WAZUH_MANAGER="202.191.121.110"
+else
+    echo "Unknown environment: $ENVIRONMENT"
+    exit 1
+fi
 
 # Check the machine hardware type
 machine_type=$(uname -m)
@@ -33,7 +43,7 @@ curl -so wazuh-agent.pkg $WAZUH_PKG_URL
 echo "Downloaded iCyberHunt agent"
 
 echo "Installing iCyberHunt agent..."
-echo "WAZUH_MANAGER='43.240.100.76' && WAZUH_AGENT_GROUP='default,macOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
+echo "WAZUH_MANAGER=\"$WAZUH_MANAGER\" && WAZUH_AGENT_GROUP='default,macOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
 echo "Installed iCyberHunt agent"
 
 # sleep the script for 3 seconds

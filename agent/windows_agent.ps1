@@ -1,5 +1,6 @@
 param (
-	[string]$WAZUH_AGENT_NAME
+	[string]$WAZUH_AGENT_NAME,
+	[string]$ENVIRONMENT
 )
 
 # Check if the script is running with admin privileges
@@ -13,10 +14,19 @@ if (-not $isAdmin) {
 
 # STEP 1:
 # Check if WAZUH_AGENT_NAME argument is provided
-if (-not $WAZUH_AGENT_NAME) {
-	Write-Host "Usage: windows_agent.ps1 <iCyberHunt_AGENT_NAME>"
+if (-not $WAZUH_AGENT_NAME -or -not $ENVIRONMENT) {
+	Write-Host "Usage: windows_agent.ps1 <iCyberHunt_AGENT_NAME> <environment:prod/dev>"
 	Pause
 	Exit
+}
+
+$WAZUH_MANAGER = if ($ENVIRONMENT -eq "dev") {
+    "43.240.100.76"
+} elseif ($ENVIRONMENT -eq "prod") {
+    "202.191.121.110"
+} else {
+    Write-Host "Unknown environment: $ENVIRONMENT"
+    Exit
 }
 
 # Run the following commands to download and install the agent:
