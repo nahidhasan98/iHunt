@@ -58,11 +58,11 @@ install_packages
 
 # Run the following commands to download and install the agent:
 echo "Downloading iCyberHunt agent..."
-curl -so wazuh-agent_4.7.3-1_amd64.deb https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.3-1_amd64.deb
+curl -o wazuh-agent_4.7.3-1_amd64.deb https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.3-1_amd64.deb
 echo "Downloaded iCyberHunt agent"
 
 echo "Installing iCyberHunt agent..."
-sudo WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP='default,Linux' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" dpkg -i ./wazuh-agent_4.7.3-1_amd64.deb
+sudo WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP='default,LinuxOS' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" dpkg -i ./wazuh-agent_4.7.3-1_amd64.deb
 echo "Installed iCyberHunt agent"
 
 # sleep the script for 7 seconds
@@ -101,7 +101,7 @@ echo "Downloading necesasry ar files..."
 # STEP 5:
 # Getting file_list ar
 AR_FILE_LIST_LINUX="/var/ossec/active-response/bin/ar_file_list_linux"
-curl -so $AR_FILE_LIST_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/ar_file_list_linux
+curl -o $AR_FILE_LIST_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/ar_file_list_linux
 
 sudo chmod 750 "$AR_FILE_LIST_LINUX"
 sudo chown root:wazuh "$AR_FILE_LIST_LINUX"
@@ -109,7 +109,7 @@ sudo chown root:wazuh "$AR_FILE_LIST_LINUX"
 # STEP 6:
 # Getting master ar
 MASTER_AR_LINUX="/var/ossec/active-response/bin/master_ar_linux"
-curl -so $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/master_ar_linux
+curl -o $MASTER_AR_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/master_ar_linux
 
 sudo chmod 750 "$MASTER_AR_LINUX"
 sudo chown root:wazuh "$MASTER_AR_LINUX"
@@ -117,7 +117,7 @@ sudo chown root:wazuh "$MASTER_AR_LINUX"
 # STEP 7:
 # Getting file_delete ar
 AR_FILE_DELETE_LINUX="/var/ossec/active-response/bin/ar_file_delete_linux"
-curl -so $AR_FILE_DELETE_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/ar_file_delete_linux
+curl -o $AR_FILE_DELETE_LINUX https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/linux/ar_file_delete_linux
 
 sudo chmod 750 "$AR_FILE_DELETE_LINUX"
 sudo chown root:wazuh "$AR_FILE_DELETE_LINUX"

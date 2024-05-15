@@ -51,7 +51,7 @@ Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.3-
 Write-Output "Downloaded iCyberHunt agent"
 
 Write-Output "Installing iCyberHunt agent..."
-msiexec.exe /i "${env:tmp}\wazuh-agent" /q WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP='default,Windows' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" WAZUH_REGISTRATION_SERVER="$WAZUH_MANAGER"
+msiexec.exe /i "${env:tmp}\wazuh-agent" /q WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP='default,WindowsOS' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" WAZUH_REGISTRATION_SERVER="$WAZUH_MANAGER"
 Write-Output "Installed iCyberHunt agent"
 
 # sleep the script for 7 seconds

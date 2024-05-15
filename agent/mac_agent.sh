@@ -39,11 +39,11 @@ fi
 
 # Run the following commands to download and install the agent:
 echo "Downloading iCyberHunt agent..."
-curl -so wazuh-agent.pkg $WAZUH_PKG_URL
+curl -o wazuh-agent.pkg $WAZUH_PKG_URL
 echo "Downloaded iCyberHunt agent"
 
 echo "Installing iCyberHunt agent..."
-echo "WAZUH_MANAGER=\"$WAZUH_MANAGER\" && WAZUH_AGENT_GROUP='default,macOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
+echo "WAZUH_MANAGER=\"$WAZUH_MANAGER\" && WAZUH_AGENT_GROUP='default,MacOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
 echo "Installed iCyberHunt agent"
 
 # sleep the script for 7 seconds
@@ -82,7 +82,7 @@ echo "Downloading necesasry ar files..."
 # STEP 5:
 # Getting file_list ar
 AR_FILE_LIST_MAC="/Library/Ossec/active-response/bin/ar_file_list_mac"
-curl -so $AR_FILE_LIST_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/ar_file_list_mac
+curl -o $AR_FILE_LIST_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/ar_file_list_mac
 
 sudo chmod 750 "$AR_FILE_LIST_MAC"
 sudo chown root:wazuh "$AR_FILE_LIST_MAC"
@@ -90,7 +90,7 @@ sudo chown root:wazuh "$AR_FILE_LIST_MAC"
 # STEP 6:
 # Getting master ar
 MASTER_AR_MAC="/Library/Ossec/active-response/bin/master_ar_mac"
-curl -so $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/master_ar_mac
+curl -o $MASTER_AR_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/master_ar_mac
 
 sudo chmod 750 "$MASTER_AR_MAC"
 sudo chown root:wazuh "$MASTER_AR_MAC"
@@ -98,7 +98,7 @@ sudo chown root:wazuh "$MASTER_AR_MAC"
 # STEP 7:
 # Getting file_delete ar
 AR_FILE_DELETE_MAC="/Library/Ossec/active-response/bin/ar_file_delete_mac"
-curl -so $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/ar_file_delete_mac
+curl -o $AR_FILE_DELETE_MAC https://raw.githubusercontent.com/nahidhasan98/iHunt/main/bin/wazuh/macos/ar_file_delete_mac
 
 sudo chmod 750 "$AR_FILE_DELETE_MAC"
 sudo chown root:wazuh "$AR_FILE_DELETE_MAC"
