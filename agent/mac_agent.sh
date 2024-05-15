@@ -56,7 +56,7 @@ sudo rm -f ./wazuh-agent.pkg
 # Modifying Wazuh agent keyword to iCyberHunt agent
 ossec_file="/Library/Ossec/etc/ossec.conf"
 
-sed -i \
+sed -i '' \
     -e 's/^[[:space:]]*Wazuh - Agent - Default configuration/  iCyberHunt - Agent - Default configuration/' \
     -e '/^[[:space:]]*More info/d' \
     -e '/^[[:space:]]*Mailing list/d' \
