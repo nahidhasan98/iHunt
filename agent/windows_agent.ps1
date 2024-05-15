@@ -54,8 +54,8 @@ Write-Output "Installing iCyberHunt agent..."
 msiexec.exe /i "${env:tmp}\wazuh-agent" /q WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP='default,Windows' WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" WAZUH_REGISTRATION_SERVER="$WAZUH_MANAGER"
 Write-Output "Installed iCyberHunt agent"
 
-# sleep the script for 3 seconds
-Start-Sleep -Seconds 3
+# sleep the script for 7 seconds
+Start-Sleep -Seconds 7
 
 # Remove the downloaded MSI file after installation
 Remove-Item -Path "${env:tmp}\wazuh-agent" -Force

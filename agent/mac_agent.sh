@@ -46,8 +46,8 @@ echo "Installing iCyberHunt agent..."
 echo "WAZUH_MANAGER=\"$WAZUH_MANAGER\" && WAZUH_AGENT_GROUP='default,macOS' && WAZUH_AGENT_NAME=\"$WAZUH_AGENT_NAME\"" >/tmp/wazuh_envs && sudo installer -pkg ./wazuh-agent.pkg -target /
 echo "Installed iCyberHunt agent"
 
-# sleep the script for 3 seconds
-sleep 3
+# sleep the script for 7 seconds
+sleep 7
 
 # Remove the downloaded MSI file after installation
 sudo rm -f ./wazuh-agent.pkg
