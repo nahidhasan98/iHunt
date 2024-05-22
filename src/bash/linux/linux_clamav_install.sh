@@ -7,12 +7,18 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 ###############################################################################################
-### Installing Clamav antivirus on linux    												###
+### Installing Clamav antivirus on linux                                                    ###
 ### Ref: https://docs.clamav.net/                                                           ###
-### Ref: oms.brotecs.com/issues/73977                                				        ###
+### Ref: oms.brotecs.com/issues/73977                                                       ###
 ###############################################################################################
 
-# STEP 1: Create the required directories
+# STEP 1: Create clamav user and group
+echo "Creating clamav user & group..."
+groupadd clamav
+useradd -g clamav -s /bin/false -c "Clam Antivirus" clamav
+echo "Created clamav user & group."
+
+# STEP 2: Create the required directories
 echo "Creating required directories..."
 
 # Define directories
@@ -41,7 +47,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "Created required directories."
 
-# STEP 2: Install clamav and clamav-daemon
+# STEP 3: Install clamav and clamav-daemon
 echo "Installing clamav..."
 
 # Function to check if a package is installed
@@ -63,18 +69,19 @@ for package in "${packages[@]}"; do
             echo "$package has been successfully installed."
         else
             echo "Failed to install $package. Please check your internet connection or try again later."
+            exit 1
         fi
     fi
 done
 echo "Installed clamav."
 
-# STEP 3: Some settings for on-access notification
+# STEP 4: Some settings for on-access notification
 echo "Setting up inotify watch-points..."
 
 # On-Access scanning FANOTIFY setup
 echo 524288 | sudo tee -a /proc/sys/fs/inotify/max_user_watches
 
-# STEP 4: Modifications of clamav configuration files
+# STEP 5: Modifications of clamav configuration files
 echo "Modifying clamav configuration files..."
 
 # copying conf file to keep backup
@@ -165,12 +172,9 @@ for config_path in "${!configs[@]}"; do
     esac
 done
 
-# wait for 7 seconds
-sleep 7
-
 echo "Modified clamav configuration files."
 
-# STEP 5: Create clamonacc service for realtime scanning and start the service
+# STEP 6: Create clamonacc service for realtime scanning and start the service
 echo "Creating clamonacc service..."
 
 # Define the content of the systemd service file
@@ -211,7 +215,7 @@ sudo systemctl start clamonacc.service
 
 echo "Created and satrted clamonacc service."
 
-# STEP 6: Changing permission for log file access
+# STEP 7: Changing permission for log file access
 echo "Changing log files permission..."
 
 sudo chmod 664 "$freshclamLogFile" "$clamavLogFile" "$clamOnAccLogFile"
