@@ -34,14 +34,16 @@ else {
 # Check if the system is 32-bit or 64-bit
 if ([Environment]::Is64BitOperatingSystem) {
     $OS = "64BIT"
-} else {
+}
+else {
     $OS = "32BIT"
 }
 
 # Define log file paths based on the system architecture
 if ($OS -eq "32BIT") {
     $BASE_PROGRAM_FILES = "${env:ProgramFiles}"
-} elseif ($OS -eq "64BIT") {
+}
+elseif ($OS -eq "64BIT") {
     $BASE_PROGRAM_FILES = "${env:ProgramFiles(x86)}"
 }
 

@@ -49,7 +49,7 @@ echo "Installed iCyberHunt agent"
 # sleep the script for 7 seconds
 sleep 7
 
-# Remove the downloaded MSI file after installation
+# Remove the downloaded pkg file after installation
 sudo rm -f ./wazuh-agent.pkg
 
 # STEP 2:
