@@ -6,6 +6,9 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+# Log file location
+CUSTOM_AR_LOG_FILE="/var/ossec/active-response/custom_ar.log"
+
 ###############################################################################################
 ### Monitoring USB drives in Linux using Wazuh                                              ###
 ### Ref: https://wazuh.com/blog/monitoring-usb-drives-in-linux-using-wazuh/                 ###
@@ -53,3 +56,4 @@ sudo udevadm control --reload
 sudo systemctl restart wazuh-agent
 
 echo "Script run successfully."
+echo "Script run successfully." >>$CUSTOM_AR_LOG_FILE
